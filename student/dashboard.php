@@ -269,9 +269,12 @@ $forms = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </ol>
                     </nav>
                 </div>
-                <div>
+                <div class="d-flex flex-wrap gap-2">
                     <a href="request_clearance.php" class="btn btn-primary-custom shadow-sm">
                         <i class="bi bi-plus-circle me-2"></i> New Clearance
+                    </a>
+                    <a href="status.php" class="btn btn-outline-secondary shadow-sm">
+                        <i class="bi bi-info-circle me-2"></i> View Status
                     </a>
                 </div>
             </div>

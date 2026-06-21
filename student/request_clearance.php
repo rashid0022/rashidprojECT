@@ -26,13 +26,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             throw new Exception('Academic year must be in format YYYY/YYYY (e.g., 2025/2026).');
         }
 
-        // Fetch required department IDs (core clearance departments)
-        $stmt = $pdo->prepare('SELECT department_id FROM departments WHERE department_name IN (?, ?, ?, ?) ORDER BY department_id');
-        $stmt->execute(['Library', 'Finance', 'Accommodation', 'Department Office']);
-        $departments = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        // Fetch all configured clearance departments
+        $stmt = $pdo->query('SELECT department_id, department_name FROM departments ORDER BY department_name');
+        $departments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        if (count($departments) !== 4) {
-            throw new Exception('Required clearance departments (Library, Finance, Accommodation, Department Office) are not fully configured. Please contact administrator.');
+        if (empty($departments)) {
+            throw new Exception('No clearance departments are configured. Please contact administrator.');
         }
 
         // Begin transaction to ensure data consistency
@@ -45,8 +44,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Insert clearance status for each department (initially all Pending)
         $insertStatus = $pdo->prepare('INSERT INTO clearance_status (form_id, department_id, status) VALUES (?, ?, ?)');
-        foreach ($departments as $departmentId) {
-            $insertStatus->execute([$formId, $departmentId, 'Pending']);
+        foreach ($departments as $department) {
+            $insertStatus->execute([$formId, $department['department_id'], 'Pending']);
         }
 
         $pdo->commit();
@@ -63,6 +62,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = $e->getMessage();
     }
 }
+
+// Always load configured departments for display and form creation
+$departmentStmt = $pdo->query('SELECT department_id, department_name FROM departments ORDER BY department_name');
+$departments = $departmentStmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -233,13 +236,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <span class="fw-semibold">Departments involved in clearance</span>
                             </div>
                             <div class="d-flex flex-wrap gap-2 mt-2">
-                                <span class="dept-badge"><i class="bi bi-book text-info"></i> Library</span>
-                                <span class="dept-badge"><i class="bi bi-calculator-fill text-success"></i> Finance</span>
-                                <span class="dept-badge"><i class="bi bi-house-door text-warning"></i> Accommodation</span>
-                                <span class="dept-badge"><i class="bi bi-person-badge text-primary"></i> Department Office</span>
+                                <?php foreach ($departments as $department): ?>
+                                    <span class="dept-badge"><i class="bi bi-building text-info"></i> <?= htmlspecialchars($department['department_name']); ?></span>
+                                <?php endforeach; ?>
                             </div>
                             <p class="small text-muted mt-2 mb-0">
-                                <i class="bi bi-info-circle"></i> Once submitted, each department will review your status independently.
+                                <i class="bi bi-info-circle"></i> Once submitted, all configured departments will review your status independently.
                             </p>
                         </div>
 
