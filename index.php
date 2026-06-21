@@ -96,7 +96,19 @@ session_start();
                         </div>
 
                         <!-- Role Selection -->
-                        <!-- Submit Button -->
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Select Role</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                                <select name="role" id="role" class="form-select" required>
+                                    <option value="">Choose role</option>
+                                    <option value="student">Student</option>
+                                    <option value="officer">Officer</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <button type="submit" name="login_btn" class="btn btn-primary btn-login w-100 rounded d-flex align-items-center justify-content-center gap-2">
                             <i class="bi bi-box-arrow-in-right"></i> LOGIN
                         </button>

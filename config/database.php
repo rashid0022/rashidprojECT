@@ -3,7 +3,7 @@
 $host = "localhost";
 $dbname = "suza_clearance_system";
 $username = "root";
-$password = "1234";
+$password = "s@id2004";
 
 try {
 

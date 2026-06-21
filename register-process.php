@@ -45,24 +45,41 @@ try {
     $year = trim($_POST['year'] ?? '');
 
     if ($faculty === '' || $course === '' || $year === '') {
-        throw new InvalidArgumentException('Please fill in faculty, course, and year.');
+        throw new InvalidArgumentException('Please fill in faculty, course, and academic year.');
     }
 
-    $stmt = $pdo->prepare('INSERT INTO users (full_name, registration_number, email, phone, faculty, course, year, password, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
-    $stmt->execute([$full_name, $registration_number, $email, $phone, $faculty, $course, $year, $hashed_password, 'student']);
+    $pdo->beginTransaction();
+
+    $stmt = $pdo->prepare('INSERT INTO users (full_name, registration_number, email, phone, password, role) VALUES (?, ?, ?, ?, ?, ?)');
+    $stmt->execute([$full_name, $registration_number, $email, $phone, $hashed_password, 'student']);
+    $user_id = $pdo->lastInsertId();
+
+    $stmt = $pdo->prepare('INSERT INTO student_profiles (user_id, faculty, course, academic_year) VALUES (?, ?, ?, ?)');
+    $stmt->execute([$user_id, $faculty, $course, $year]);
+
+    $pdo->commit();
 
     $_SESSION['success'] = 'Registration successful! You can now login with your email and password.';
     header('Location: index.php');
     exit();
 } catch (InvalidArgumentException $e) {
+    if ($pdo->inTransaction()) {
+        $pdo->rollBack();
+    }
     $_SESSION['error'] = $e->getMessage();
     header('Location: register.php');
     exit();
 } catch (RuntimeException $e) {
+    if ($pdo->inTransaction()) {
+        $pdo->rollBack();
+    }
     $_SESSION['error'] = $e->getMessage();
     header('Location: register.php');
     exit();
 } catch (Exception $e) {
+    if ($pdo->inTransaction()) {
+        $pdo->rollBack();
+    }
     $_SESSION['error'] = 'Something went wrong during registration. Please try again.';
     header('Location: register.php');
     exit();

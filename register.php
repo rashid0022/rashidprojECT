@@ -141,6 +141,28 @@ footer{
                 <input type="text" name="phone" class="form-control" required>
             </div>
 
+            <div class="col-md-6">
+                <label>Faculty</label>
+                <input type="text" name="faculty" class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label>Course</label>
+                <input type="text" name="course" class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label>Academic Year</label>
+                <select name="year" class="form-select" required>
+                    <option value="">Select year</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+
             <hr class="my-3">
 
             <div class="col-md-6">
@@ -155,7 +177,7 @@ footer{
 
         </div>
 
-        <button class="btn btn-main w-100 mt-4">
+        <button type="submit" name="register_btn" class="btn btn-main w-100 mt-4">
             <i class="bi bi-check-circle"></i> Register Now
         </button>
 

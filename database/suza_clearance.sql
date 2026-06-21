@@ -20,6 +20,22 @@ CREATE TABLE departments (
 ) ENGINE=InnoDB;
 
 -- =====================================================
+-- CLEARANCE ITEMS
+-- =====================================================
+
+CREATE TABLE clearance_items (
+    item_id INT AUTO_INCREMENT PRIMARY KEY,
+    item_name VARCHAR(150) NOT NULL,
+    description TEXT NULL,
+    department_id INT NOT NULL,
+    status ENUM('active','inactive') NOT NULL DEFAULT 'active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_clearance_item_department FOREIGN KEY (department_id) REFERENCES departments(department_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    UNIQUE KEY uniq_clearance_item_name_department (item_name, department_id)
+) ENGINE=InnoDB;
+
+-- =====================================================
 -- USERS
 -- =====================================================
 

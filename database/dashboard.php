@@ -7,214 +7,24 @@ require_role('admin');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SUZA Clearance System · Admin</title>
-    <!-- Bootstrap 5 + Icons -->
+    <title>SUZA Clearance System - Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
-    <!-- Google Font: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-    <!-- Base admin.css (kept) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/admin.css">
-
-    
-    <style>
-        * { font-family: 'Inter', -apple-system, system-ui, sans-serif; }
-        body {
-            background: #f5f7fb;
-            margin: 0;
-            padding: 0;
-        }
-        /* ----- sidebar refresh ----- */
-        .sidebar {
-            background: #ffffff;
-            border-right: 1px solid rgba(0,0,0,0.03);
-            box-shadow: 0 0 20px rgba(0,20,40,0.02);
-        }
-        .sidebar-brand h5 {
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            color: #0b1f3b;
-        }
-        .sidebar-brand span {
-            font-weight: 500;
-            color: #6b7f98;
-            font-size: 0.7rem;
-            letter-spacing: 0.03em;
-        }
-        .nav-link {
-            border-radius: 12px;
-            padding: 0.55rem 0.9rem;
-            font-weight: 500;
-            color: #1f334f;
-            transition: 0.15s ease;
-        }
-        .nav-link:hover { background: #f0f4fe; color: #0b1f3b; }
-        .nav-link.active {
-            background: #eef4ff;
-            color: #1a4cff;
-            box-shadow: inset 3px 0 0 #1a4cff;
-        }
-        .nav-link.active i { color: #1a4cff; }
-        .nav-link i { color: #5e7391; }
-        .badge-danger {
-            background: #ff5a77;
-            color: #fff;
-            font-size: 0.6rem;
-            font-weight: 600;
-            padding: 0.2rem 0.6rem;
-            border-radius: 20px;
-        }
-        .menu-section-title {
-            color: #8b9bb3;
-            font-weight: 600;
-            letter-spacing: 0.04em;
-        }
-        .btn-logout {
-            color: #5f7391;
-            font-weight: 500;
-        }
-        .btn-logout:hover { background: #fef0f0; color: #c42b2b; }
-
-        /* top navbar */
-        .top-navbar {
-            background: #ffffff;
-            border-bottom: 1px solid #edf2f8;
-            backdrop-filter: blur(4px);
-            padding: 0.6rem 2rem;
-        }
-        .user-profile {
-            background: #f8fafe;
-            border-radius: 40px;
-            padding: 0.2rem 0.8rem 0.2rem 0.3rem;
-        }
-        .user-avatar {
-            background: #e9eefa;
-            color: #1a3d7a;
-        }
-
-        /* cards */
-        .stat-card {
-            background: #ffffff;
-            border-radius: 20px;
-            padding: 1.2rem 1rem 1rem 1rem;
-            border: 1px solid #f0f4fc;
-            box-shadow: 0 2px 8px rgba(0,20,40,0.02);
-            transition: 0.2s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .stat-card:hover { box-shadow: 0 8px 24px rgba(0,20,40,0.04); }
-        .stat-card .card-progress {
-            height: 3px;
-            width: 100%;
-            background: rgba(0,0,0,0.04);
-            border-radius: 10px;
-            margin-top: 0.6rem;
-        }
-        .stat-card .card-progress.bg-primary { background: #1a4cff; width: 70%; }
-        .stat-card .card-progress.bg-success { background: #20b27a; width: 82%; }
-        .stat-card .card-progress.bg-warning { background: #f4b740; width: 45%; }
-        .stat-card .card-progress.bg-danger { background: #e4576b; width: 30%; }
-
-        .stat-icon {
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 16px;
-            font-size: 1.4rem;
-        }
-        .stat-card p { margin: 0.4rem 0 0 0; color: #677c99; font-size: 0.8rem; font-weight: 500; }
-        .stat-card h3 { font-weight: 700; font-size: 1.8rem; color: #0b1f3b; margin: 0.2rem 0 0.1rem; }
-
-        .content-card {
-            background: #ffffff;
-            border-radius: 24px;
-            border: 1px solid #edf2f9;
-            padding: 1.2rem 1.2rem 1.4rem;
-            box-shadow: 0 2px 12px rgba(0,20,40,0.02);
-            height: 100%;
-            transition: 0.2s;
-        }
-        .content-card:hover { box-shadow: 0 6px 20px rgba(0,20,40,0.04); }
-        .card-header-custom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #edf2f8;
-            padding-bottom: 0.6rem;
-            margin-bottom: 1rem;
-        }
-        .card-header-custom h5 {
-            font-weight: 600;
-            font-size: 1.05rem;
-            color: #0b1f3b;
-            margin: 0;
-        }
-        .badge-status {
-            padding: 0.2rem 0.7rem;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 0.7rem;
-        }
-        .badge-status.pending { background: #fff3d6; color: #b47a2a; }
-        .badge-status.approved { background: #ddf5e9; color: #0d7a4e; }
-        .badge-status.rejected { background: #fde3e6; color: #b13e4b; }
-
-        /* notifications */
-        .noti-list { display: flex; flex-direction: column; gap: 0.6rem; }
-        .noti-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 0.6rem 0.4rem;
-            border-radius: 16px;
-            background: #fafcff;
-            transition: 0.1s;
-        }
-        .noti-item:hover { background: #f2f7ff; }
-        .noti-icon {
-            width: 34px;
-            height: 34px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 12px;
-            font-size: 1.1rem;
-        }
-
-        .footer {
-            padding: 1rem 2rem;
-            color: #7b8ea8;
-            font-size: 0.8rem;
-            border-top: 1px solid #edf2f8;
-            background: transparent;
-        }
-        .table th { font-weight: 600; color: #1f3a5e; border-bottom: 1px solid #e7edf6; }
-        .table td { vertical-align: middle; }
-        .btn-outline-primary { border-color: #d6e2f5; color: #1a3d7a; }
-        .btn-outline-primary:hover { background: #1a4cff; color: #fff; border-color: #1a4cff; }
-
-        @media (max-width: 768px) {
-            .top-navbar { padding: 0.6rem 1rem; }
-            .dashboard-content { padding: 0.8rem; }
-        }
-    </style>
+     
 </head>
 <body>
 
-    <!-- SIDEBAR -->
     <div class="sidebar">
         <div>
             <div class="sidebar-brand">
-                <img src="../assets/images/logo.png" alt="SUZA Logo" onerror="this.style.display='none'">
-                <div>
-                    <h5>SUZA CLEARANCE</h5>
+                <img src="https://via.placeholder.com/45" alt="SUZA Logo"> <div>
+                    <h5>SUZA CLEARANCE SYSTEM</h5>
                     <span>Admin Dashboard</span>
                 </div>
             </div>
-
+            
             <div class="sidebar-menu">
                 <a href="dashboard.php" class="nav-link active">
                     <div class="nav-link-left"><i class="bi bi-grid-1x2-fill"></i> Dashboard</div>
@@ -225,11 +35,11 @@ require_role('admin');
                     <div class="nav-link-left"><i class="bi bi-people"></i> Users Management</div>
                     <i class="bi bi-chevron-down small"></i>
                 </a>
-                <a href="departments.php" class="nav-link">
+                <a href="#" class="nav-link">
                     <div class="nav-link-left"><i class="bi bi-building"></i> Departments</div>
                     <i class="bi bi-chevron-down small"></i>
                 </a>
-                <a href="clearance_items.php" class="nav-link">
+                <a href="#" class="nav-link">
                     <div class="nav-link-left"><i class="bi bi-card-checklist"></i> Clearance Items</div>
                     <i class="bi bi-chevron-down small"></i>
                 </a>
@@ -274,34 +84,29 @@ require_role('admin');
         </div>
     </div>
 
-    <!-- MAIN WRAPPER -->
     <div class="main-wrapper">
-
-        <!-- TOP NAV -->
+        
         <header class="top-navbar">
             <button class="btn p-0 border-0 fs-4"><i class="bi bi-list"></i></button>
             <div class="navbar-meta">
-                <div><i class="bi bi-calendar3 me-1"></i> <?= date('F j, Y'); ?></div>
-                <div><i class="bi bi-clock me-1"></i> <?= date('g:i A'); ?></div>
+                <div><i class="bi bi-calendar3 me-1"></i> May 15, 2025</div>
+                <div><i class="bi bi-clock me-1"></i> 10:30 AM</div>
                 <div class="user-profile">
                     <div class="user-avatar"><i class="bi bi-person"></i></div>
                     <div class="text-start d-none d-sm-block">
-                        <div class="fw-bold text-dark" style="font-size: 0.8rem; line-height:1.2;">Admin User</div>
-                        <div style="font-size: 0.65rem; color: #6c819e;">System Administrator</div>
+                        <div class="fw-bold text-dark" style="font-size: 0.85rem; line-height:1.2;">Admin User</div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);">System Administrator <i class="bi bi-chevron-down ms-1"></i></div>
                     </div>
                 </div>
-                <a href="../logout.php" class="btn btn-outline-danger btn-sm">Logout</a>
             </div>
         </header>
 
-        <!-- DASHBOARD CONTENT -->
         <div class="dashboard-content">
             <div class="mb-4">
-                <h2 class="fw-bold text-dark h4 mb-1">Welcome back, Admin 👋</h2>
+                <h2 class="fw-bold text-dark h4 mb-1">Welcome back, Admin! 👋</h2>
                 <p class="text-muted small m-0">Here's what's happening with the clearance system today.</p>
             </div>
 
-            <!-- STATS ROW -->
             <div class="row g-3 mb-4">
                 <div class="col-xl col-md-4 col-sm-6">
                     <div class="stat-card">
@@ -350,13 +155,12 @@ require_role('admin');
                 </div>
             </div>
 
-            <!-- CHARTS ROW -->
             <div class="row g-4 mb-4">
                 <div class="col-lg-7">
                     <div class="content-card">
                         <div class="card-header-custom">
                             <h5>Clearance Requests Overview</h5>
-                            <select class="form-select form-select-sm w-auto border-0 bg-light fw-semibold"><option>This Month</option></select>
+                            <select class="form-select form-select-sm w-auto"><option>This Month</option></select>
                         </div>
                         <div style="height: 280px; position: relative;">
                             <canvas id="lineChart"></canvas>
@@ -387,7 +191,6 @@ require_role('admin');
                 </div>
             </div>
 
-            <!-- TABLE + NOTIFICATIONS -->
             <div class="row g-4">
                 <div class="col-lg-7">
                     <div class="content-card">
@@ -509,12 +312,11 @@ require_role('admin');
         </footer>
     </div>
 
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        // 1. LINE CHART – Clearance Requests Overview
+        // 1. LINE CHART (Clearance Requests Overview)
         const ctxLine = document.getElementById('lineChart').getContext('2d');
         new Chart(ctxLine, {
             type: 'line',
@@ -524,62 +326,53 @@ require_role('admin');
                     {
                         label: 'Requests',
                         data: [35, 60, 85, 78, 65, 85, 80],
-                        borderColor: '#1a4cff',
+                        borderColor: '#0D6EFD',
                         backgroundColor: 'transparent',
                         tension: 0.4,
-                        pointRadius: 4,
-                        pointBackgroundColor: '#1a4cff',
+                        pointRadius: 4
                     },
                     {
                         label: 'Approved',
                         data: [25, 42, 52, 58, 48, 52, 48],
-                        borderColor: '#20b27a',
+                        borderColor: '#198754',
                         backgroundColor: 'transparent',
                         tension: 0.4,
-                        pointRadius: 4,
-                        pointBackgroundColor: '#20b27a',
+                        pointRadius: 4
                     },
                     {
                         label: 'Rejected',
                         data: [10, 18, 25, 20, 12, 22, 18],
-                        borderColor: '#e4576b',
+                        borderColor: '#DC3545',
                         backgroundColor: 'transparent',
                         tension: 0.4,
-                        pointRadius: 4,
-                        pointBackgroundColor: '#e4576b',
+                        pointRadius: 4
                     }
                 ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: true, position: 'top', labels: { boxWidth: 8, usePointStyle: true } }
-                },
-                scales: {
-                    y: { min: 0, max: 100, grid: { color: '#edf2f8' } },
-                    x: { grid: { display: false } }
-                }
+                plugins: { legend: { display: true, position: 'top' } },
+                scales: { y: { min: 0, max: 100 } }
             }
         });
 
-        // 2. DONUT CHART – Requests by Department
+        // 2. DONUT CHART (Requests by Department)
         const ctxDonut = document.getElementById('donutChart').getContext('2d');
         new Chart(ctxDonut, {
             type: 'doughnut',
             data: {
                 datasets: [{
                     data: [320, 285, 210, 250, 145, 36],
-                    backgroundColor: ['#1a4cff', '#20b27a', '#f4b740', '#6f42c1', '#0dcaf0', '#e4576b'],
-                    borderWidth: 3,
-                    borderColor: '#ffffff',
+                    backgroundColor: ['#0D6EFD', '#198754', '#FFC107', '#6F42C1', '#0DCAF0', '#DC3545'],
+                    borderWidth: 2
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: { legend: { display: false } },
-                cutout: '68%'
+                cutout: '70%'
             }
         });
     </script>

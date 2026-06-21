@@ -14,14 +14,14 @@ $stmt = $pdo->prepare('SELECT department_name FROM departments WHERE department_
 $stmt->execute([$departmentId]);
 $department = $stmt->fetchColumn();
 
-$stmt = $pdo->prepare('SELECT cs.status_id, cs.status AS clearance_status, cs.comment, cs.last_updated,
-    f.form_id, f.academic_year, f.date_applied, f.status AS overall_status,
+$stmt = $pdo->prepare('SELECT cs.status_id, cs.status AS clearance_status, cs.comment, cs.updated_at AS last_updated,
+    f.form_id, f.academic_session AS academic_year, f.date_applied, f.status AS overall_status,
     u.full_name AS student_name, u.registration_number
     FROM clearance_status cs
     JOIN clearance_forms f ON cs.form_id = f.form_id
-    JOIN users u ON f.student_id = u.user_id
+    JOIN users u ON f.user_id = u.user_id
     WHERE cs.department_id = ?
-    ORDER BY cs.status = "Pending" DESC, cs.last_updated DESC');
+    ORDER BY cs.status = "Pending" DESC, cs.updated_at DESC');
 $stmt->execute([$departmentId]);
 $requests = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>

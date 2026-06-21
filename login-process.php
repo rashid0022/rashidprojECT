@@ -9,20 +9,25 @@ if (!isset($_POST['login_btn'])) {
 
 $email = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
+$selected_role = trim($_POST['role'] ?? '');
 
-if ($email === '' || $password === '') {
-    $_SESSION['error'] = 'Please enter both email and password.';
+if ($email === '' || $password === '' || $selected_role === '') {
+    $_SESSION['error'] = 'Please enter email, password and select your role.';
     header('Location: index.php');
     exit();
 }
 
 try {
-    $stmt = $pdo->prepare('SELECT user_id, full_name, email, password, role FROM users WHERE email = ? LIMIT 1');
+    $stmt = $pdo->prepare('SELECT user_id, full_name, email, password, role, department_id FROM users WHERE email = ? LIMIT 1');
     $stmt->execute([$email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$user || !password_verify($password, $user['password'])) {
         throw new Exception('Invalid email or password.');
+    }
+
+    if ($selected_role !== $user['role']) {
+        throw new Exception('Selected role does not match this account. Please choose the correct role.');
     }
 
     $_SESSION['logged_in'] = true;
