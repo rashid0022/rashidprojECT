@@ -47,7 +47,7 @@ session_start();
                     <img src="./assets/images/logo.jpg" alt="SUZA Large Logo" class="brand-logo">
                     <h2>SUZA CLEARANCE<br>FORM MANAGEMENT SYSTEM</h2>
                     <div class="brand-divider"></div>
-                    <p>A web-based system to manage and automate student clearance process efficiently.</p>
+                    <p>A web based system to manage and automate student clearance process efficiently in SUZA.</p>
                 </div>
                 
                 <!-- Right Panel (Form) -->
@@ -97,11 +97,11 @@ session_start();
 
                         <!-- Role Selection -->
                         <div class="mb-3">
-                            <label for="role" class="form-label">Select Role</label>
+                            <label for="role" class="form-label">Select Your Role</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
                                 <select name="role" id="role" class="form-select" required>
-                                    <option value="">Choose role</option>
+                                    <option value="">Choose your role</option>
                                     <option value="student">Student</option>
                                     <option value="officer">Officer</option>
                                     <option value="admin">Admin</option>
